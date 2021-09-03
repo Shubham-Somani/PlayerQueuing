@@ -125,6 +125,7 @@ export default defineComponent({
         }, 15000)
         data.timeout = timeout
       }
+      console.log(`name -> ${data.name} -- Time Out -> ${data.timeout}`)
       this[type].push(data)
       return data
     },
@@ -143,6 +144,7 @@ export default defineComponent({
       } else if (this.twoPlayerQueue.length === 1 && this.anyPlayerQueue.length > 0) { // IF two player queue has 1 player and any player queue has 1 player
         const playerOne = this.twoPlayerQueue.shift()
         const playerTwo = this.anyPlayerQueue.shift()
+        clearTimeout(playerTwo.timeout)
         // Make a two player game
         this.makeTwoPlayerGame(playerOne, playerTwo)
       }
@@ -169,12 +171,15 @@ export default defineComponent({
         const playerOne = this.threePlayerQueue.shift()
         const playerTwo = this.threePlayerQueue.shift()
         const playerThree = this.anyPlayerQueue.shift()
+        clearTimeout(playerThree.timeout)
         // Make a three player game
         this.makeThreePlayerGame(playerOne, playerTwo, playerThree)
       } else if (this.threePlayerQueue.length === 1 && this.anyPlayerQueue.length >= 2) { // IF three player queue has 1 player and any player queue has 2 player
         const playerOne = this.threePlayerQueue.shift()
         const playerTwo = this.anyPlayerQueue.shift()
         const playerThree = this.anyPlayerQueue.shift()
+        clearTimeout(playerTwo.timeout)
+        clearTimeout(playerThree.timeout)
         // Make a three player game
         this.makeThreePlayerGame(playerOne, playerTwo, playerThree)
       }
@@ -204,6 +209,7 @@ export default defineComponent({
         const playerTwo = this.fourPlayerQueue.shift()
         const playerThree = this.fourPlayerQueue.shift()
         const playerFour = this.anyPlayerQueue.shift()
+        clearTimeout(playerFour.timeout)
         // Make a four player game
         this.makeFourPlayerGame(playerOne, playerTwo, playerThree, playerFour)
       } else if (this.fourPlayerQueue.length === 2 && this.anyPlayerQueue.length >= 2) { // IF four player queue has 2 player and any player queue has 2 player
@@ -211,6 +217,8 @@ export default defineComponent({
         const playerTwo = this.fourPlayerQueue.shift()
         const playerThree = this.anyPlayerQueue.shift()
         const playerFour = this.anyPlayerQueue.shift()
+        clearTimeout(playerThree.timeout)
+        clearTimeout(playerFour.timeout)
         // Make a four player game
         this.makeFourPlayerGame(playerOne, playerTwo, playerThree, playerFour)
       } else if (this.fourPlayerQueue.length === 1 && this.anyPlayerQueue.length >= 3) { // IF four player queue has 2 player and any player queue has 3 player
@@ -218,6 +226,9 @@ export default defineComponent({
         const playerTwo = this.anyPlayerQueue.shift()
         const playerThree = this.anyPlayerQueue.shift()
         const playerFour = this.anyPlayerQueue.shift()
+        clearTimeout(playerTwo.timeout)
+        clearTimeout(playerThree.timeout)
+        clearTimeout(playerFour.timeout)
         // Make a four player game
         this.makeFourPlayerGame(playerOne, playerTwo, playerThree, playerFour)
       }
@@ -241,43 +252,57 @@ export default defineComponent({
         const playerTwo = this.anyPlayerQueue.shift()
         const playerThree = this.anyPlayerQueue.shift()
         const playerFour = this.anyPlayerQueue.shift()
+        clearTimeout(playerOne.timeout)
+        clearTimeout(playerTwo.timeout)
+        clearTimeout(playerThree.timeout)
+        clearTimeout(playerFour.timeout)
         // Make a four player game
         this.makeFourPlayerGame(playerOne, playerTwo, playerThree, playerFour)
       } else if (this.anyPlayerQueue.length === 3 && this.fourPlayerQueue.length === 1) { // IF any player queue has 3 player and four player queue has 1 player
         const playerOne = this.anyPlayerQueue.shift()
+        clearTimeout(playerOne.timeout)
         const playerTwo = this.anyPlayerQueue.shift()
+        clearTimeout(playerTwo.timeout)
         const playerThree = this.anyPlayerQueue.shift()
+        clearTimeout(playerThree.timeout)
+        const playerFour = this.fourPlayerQueue.shift()
+        // Make a four player game
+        this.makeFourPlayerGame(playerOne, playerTwo, playerThree, playerFour)
+      } else if (this.anyPlayerQueue.length === 2 && this.fourPlayerQueue.length === 2) { // IF any player queue has 3 player and four player queue has 2 player
+        const playerOne = this.anyPlayerQueue.shift()
+        clearTimeout(playerOne.timeout)
+        const playerTwo = this.anyPlayerQueue.shift()
+        clearTimeout(playerTwo.timeout)
+        const playerThree = this.fourPlayerQueue.shift()
         const playerFour = this.fourPlayerQueue.shift()
         // Make a four player game
         this.makeFourPlayerGame(playerOne, playerTwo, playerThree, playerFour)
       } else if (this.anyPlayerQueue.length === 2 && this.threePlayerQueue.length === 1) { // IF any player queue has 2 player and three player queue has 1 player
         const playerOne = this.anyPlayerQueue.shift()
+        clearTimeout(playerOne.timeout)
         const playerTwo = this.anyPlayerQueue.shift()
+        clearTimeout(playerTwo.timeout)
         const playerThree = this.threePlayerQueue.shift()
         // Make a three player game
         this.makeThreePlayerGame(playerOne, playerTwo, playerThree)
-      } else if (this.anyPlayerQueue.length === 2 && this.fourPlayerQueue.length === 2) { // IF any player queue has 3 player and four player queue has 2 player
-        const playerOne = this.anyPlayerQueue.shift()
-        const playerTwo = this.anyPlayerQueue.shift()
-        const playerThree = this.fourPlayerQueue.shift()
-        const playerFour = this.fourPlayerQueue.shift()
-        // Make a four player game
-        this.makeFourPlayerGame(playerOne, playerTwo, playerThree, playerFour)
       } else if (this.anyPlayerQueue.length === 1 && this.fourPlayerQueue.length === 3) { // IF any player queue has 1 player and four player queue has 3 player
         const playerOne = this.fourPlayerQueue.shift()
         const playerTwo = this.fourPlayerQueue.shift()
         const playerThree = this.fourPlayerQueue.shift()
         const playerFour = this.anyPlayerQueue.shift()
+        clearTimeout(playerFour.timeout)
         // Make a four player game
         this.makeFourPlayerGame(playerOne, playerTwo, playerThree, playerFour)
       } else if (this.anyPlayerQueue.length === 1 && this.threePlayerQueue.length === 2) { // IF any player queue has 1 player and three player queue has 2 player
         const playerOne = this.anyPlayerQueue.shift()
+        clearTimeout(playerOne.timeout)
         const playerTwo = this.threePlayerQueue.shift()
         const playerThree = this.threePlayerQueue.shift()
         // Make a three player game
         this.makeThreePlayerGame(playerOne, playerTwo, playerThree)
       } else if (this.anyPlayerQueue.length === 1 && this.twoPlayerQueue.length === 1) { // IF any player queue has 1 player and two player queue has 1 player
         const playerOne = this.anyPlayerQueue.shift()
+        clearTimeout(playerOne.timeout)
         const playerTwo = this.twoPlayerQueue.shift()
         // Make a two player game
         this.makeTwoPlayerGame(playerOne, playerTwo)
@@ -286,7 +311,10 @@ export default defineComponent({
     filterAnyPlayerGame () {
       switch (this.anyPlayerQueue.length) {
         case 1:
-          this.anyPlayerQueue.shift()
+          {
+            const playerOne = this.anyPlayerQueue.shift()
+            clearTimeout(playerOne.timeout)
+          }
           console.log('no game found')
           break
         case 2:
@@ -302,7 +330,10 @@ export default defineComponent({
           this.makeAnyPlayerGame(4)
           break
         default:
-          this.anyPlayerQueue.shift()
+          {
+            const playerOne = this.anyPlayerQueue.shift()
+            clearTimeout(playerOne.timeout)
+          }
           console.log('no game found')
       }
     },
@@ -310,26 +341,26 @@ export default defineComponent({
       if (count === 2) {
         const playerOne = this.anyPlayerQueue.shift()
         const playerTwo = this.anyPlayerQueue.shift()
-        clearInterval(playerOne.timeout)
-        clearInterval(playerTwo.timeout)
+        clearTimeout(playerOne.timeout)
+        clearTimeout(playerTwo.timeout)
         this.makeTwoPlayerGame(playerOne, playerTwo)
       } else if (count === 3) {
         const playerOne = this.anyPlayerQueue.shift()
         const playerTwo = this.anyPlayerQueue.shift()
         const playerThree = this.anyPlayerQueue.shift()
-        clearInterval(playerOne.timeout)
-        clearInterval(playerTwo.timeout)
-        clearInterval(playerThree.timeout)
+        clearTimeout(playerOne.timeout)
+        clearTimeout(playerTwo.timeout)
+        clearTimeout(playerThree.timeout)
         this.makeTwoPlayerGame(playerOne, playerTwo, playerThree)
       } else if (count === 3) {
         const playerOne = this.anyPlayerQueue.shift()
         const playerTwo = this.anyPlayerQueue.shift()
         const playerThree = this.anyPlayerQueue.shift()
         const playerFour = this.anyPlayerQueue.shift()
-        clearInterval(playerOne.timeout)
-        clearInterval(playerTwo.timeout)
-        clearInterval(playerThree.timeout)
-        clearInterval(playerFour.timeout)
+        clearTimeout(playerOne.timeout)
+        clearTimeout(playerTwo.timeout)
+        clearTimeout(playerThree.timeout)
+        clearTimeout(playerFour.timeout)
         this.makeTwoPlayerGame(playerOne, playerTwo, playerThree, playerFour)
       }
     },
