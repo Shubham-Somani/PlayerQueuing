@@ -309,6 +309,7 @@ export default defineComponent({
       }
     },
     filterAnyPlayerGame () {
+      console.log('this.anyPlayerQueue.length --->', this.anyPlayerQueue.length)
       switch (this.anyPlayerQueue.length) {
         case 1:
           {
@@ -338,6 +339,7 @@ export default defineComponent({
       }
     },
     makeAnyPlayerGame (count) {
+      console.log('count --->', count)
       if (count === 2) {
         const playerOne = this.anyPlayerQueue.shift()
         const playerTwo = this.anyPlayerQueue.shift()
@@ -351,7 +353,7 @@ export default defineComponent({
         clearTimeout(playerOne.timeout)
         clearTimeout(playerTwo.timeout)
         clearTimeout(playerThree.timeout)
-        this.makeTwoPlayerGame(playerOne, playerTwo, playerThree)
+        this.makeThreePlayerGame(playerOne, playerTwo, playerThree)
       } else if (count === 3) {
         const playerOne = this.anyPlayerQueue.shift()
         const playerTwo = this.anyPlayerQueue.shift()
@@ -361,7 +363,7 @@ export default defineComponent({
         clearTimeout(playerTwo.timeout)
         clearTimeout(playerThree.timeout)
         clearTimeout(playerFour.timeout)
-        this.makeTwoPlayerGame(playerOne, playerTwo, playerThree, playerFour)
+        this.makeFourPlayerGame(playerOne, playerTwo, playerThree, playerFour)
       }
     },
     getRandomString (length) {
