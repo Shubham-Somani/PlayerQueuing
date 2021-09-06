@@ -29,7 +29,7 @@ const calculatePoints = (data) => {
       if (i > 0 && parseInt(players[i].bid) < parseInt(players[i - 1].bid)) {
         rank++
       }
-      if (players[i].bid !== null) {
+      if (!isNaN(parseInt(players[i].bid))) {
         activePlayer++
       }
       rankCount[rank] = rankCount[rank] ? rankCount[rank] + 1 : 1
@@ -54,29 +54,10 @@ const calculatePoints = (data) => {
  * @returns {Array} Array of players with their score and ranks
 **/
 const getScoringValues = (players, activePlayer, rankCount) => {
-  const highestScore = 12
-  const lowestScore = highestScore / activePlayer
-  const scoreSystem = [highestScore]
+  // const lowestScore = highestScore / activePlayer
   for (let i = 1; i < players.length; i++) {
-    scoreSystem.push(
-      scoreSystem[i - 1] - lowestScore < 0
-        ? 0
-        : scoreSystem[i - 1] - lowestScore
-    )
-  }
-
-  for (let i = 0; i < players.length; i++) {
     const rankRepeat = rankCount[players[i].rank]
-    if (rankRepeat === 1) {
-      players[i].score = scoreSystem[i]
-    } else {
-      players[i].score =
-        sumBetweenTwoIndex(
-          scoreSystem,
-          players[i].rank - 1,
-          ((players[i].rank - 1) >= (rankRepeat - 1)) ? (((players[i].rank - 1) === (rankRepeat - 1)) ? rankRepeat : rankRepeat + 1) : (rankRepeat - 1)
-        ) / rankRepeat
-    }
+    players[i].score = ((activePlayer + 1) - (players[i].rank + (players[i].rank + (rankRepeat - 1)))) * (12 / activePlayer)
   }
   return players
 }
@@ -91,13 +72,13 @@ const getScoringValues = (players, activePlayer, rankCount) => {
  * @param i2
  * @returns {Int} result
 **/
-const sumBetweenTwoIndex = (array, i1, i2) => {
-  let result = 0
-  array.slice(i1, i2 + 1).forEach((element) => {
-    result += element
-  })
-  return result
-}
+// const sumBetweenTwoIndex = (array, i1, i2) => {
+//   let result = 0
+//   array.slice(i1, i2 + 1).forEach((element) => {
+//     result += element
+//   })
+//   return result
+// }
 
 const players = [
   {
