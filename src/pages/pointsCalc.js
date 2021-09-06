@@ -26,7 +26,7 @@ const calculatePoints = (data) => {
     const rankCount = {}
     for (let i = 0; i < players.length; i++) {
       // increase rank only if current bid less than previous
-      if (i > 0 && players[i].bid < players[i - 1].bid) {
+      if (i > 0 && parseInt(players[i].bid) < parseInt(players[i - 1].bid)) {
         rank++
       }
       if (players[i].bid !== null) {
