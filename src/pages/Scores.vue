@@ -153,12 +153,11 @@ export default defineComponent({
         let rank = 1
         const rankCount = {}
         for (let i = 0; i < players.length; i++) {
-          // increase rank only if current bid less than previous
           if (i > 0) {
             const player1 = parseInt(players[i].bid) ? parseInt(players[i].bid) : 0
             const player2 = parseInt(players[i - 1].bid) ? parseInt(players[i - 1].bid) : 0
             if (player1 < player2) {
-              rank++
+              rank = i + 1
             }
           }
           if (!isNaN(parseInt(players[i].bid))) {
