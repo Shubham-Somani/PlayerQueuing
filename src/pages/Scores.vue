@@ -122,13 +122,10 @@ export default defineComponent({
   methods: {
     onSelectGameType (gameType) {
       this.gamePlayers = []
-      console.log('this.gamePlayers- -->', this.gamePlayers)
       this.gamePlayers = JSON.parse(JSON.stringify(this.playersArray.slice(0, gameType.value)))
     },
     async submitBid () {
-      console.log('this.gamePlayers- -->', this.gamePlayers)
       await this.calculatePoints({ players: this.gamePlayers })
-      console.log('done -->', this.gamePlayers)
     },
     /**
      * Returns the ranks and points assigned to the player based on their bids placed
@@ -157,12 +154,14 @@ export default defineComponent({
         const rankCount = {}
         for (let i = 0; i < players.length; i++) {
           // increase rank only if current bid less than previous
-          if (i > 0 && players[i].bid < players[i - 1].bid) {
-            rank++
+          if (i > 0) {
+            const player1 = parseInt(players[i].bid) ? parseInt(players[i].bid) : 0
+            const player2 = parseInt(players[i - 1].bid) ? parseInt(players[i - 1].bid) : 0
+            if (player1 < player2) {
+              rank++
+            }
           }
-          console.log(`players[${i}].bid -->`, players[i].bid !== null)
-          console.log(`players[${i}].bid -->`, players[i].bid !== '')
-          if (players[i].bid !== null && players[i].bid !== '') {
+          if (!isNaN(parseInt(players[i].bid))) {
             activePlayer++
           }
           rankCount[rank] = rankCount[rank] ? rankCount[rank] + 1 : 1
@@ -187,27 +186,9 @@ export default defineComponent({
      * @returns {Array} Array of players with their score and ranks
     **/
     getScoringValues (players, activePlayer, rankCount) {
-      const highestScore = activePlayer <= 0 ? 0 : 12
-      console.log('activePlayer -->', activePlayer)
-      const lowestScore = activePlayer <= 0 ? 0 : highestScore / activePlayer
-      const scoreSystem = [highestScore]
-      for (let i = 1; i < players.length; i++) {
-        scoreSystem.push(scoreSystem[i - 1] - lowestScore < 0 ? 0 : scoreSystem[i - 1] - lowestScore
-        )
-      }
-
       for (let i = 0; i < players.length; i++) {
         const rankRepeat = rankCount[players[i].rank]
-        if (rankRepeat === 1) {
-          players[i].score = scoreSystem[i]
-        } else {
-          players[i].score =
-            this.sumBetweenTwoIndex(
-              scoreSystem,
-              players[i].rank - 1,
-              ((players[i].rank - 1) >= (rankRepeat - 1)) ? (((players[i].rank - 1) === (rankRepeat - 1)) ? rankRepeat : rankRepeat + 1) : (rankRepeat - 1)
-            ) / rankRepeat
-        }
+        players[i].score = isNaN(parseInt(players[i].bid)) ? 0 : (((activePlayer + 1) - (players[i].rank + (players[i].rank + (rankRepeat - 1))) / 2) * (12 / activePlayer))
       }
       return players
     },

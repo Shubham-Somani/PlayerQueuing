@@ -17,7 +17,7 @@ const calculatePoints = (data) => {
     players.sort(function (a, b) {
       return b.bid - a.bid
     })
-
+    console.log('players --->', players)
     /**
      * Now assign each players a rank based on their score
      * and based on their rank we will assign a score
@@ -26,6 +26,7 @@ const calculatePoints = (data) => {
     const rankCount = {}
     for (let i = 0; i < players.length; i++) {
       // increase rank only if current bid less than previous
+      console.log(`name - ${players[i].name}, bid - ${players[i].bid}, rank - ${players[i].rank}`)
       if (i > 0 && parseInt(players[i].bid) < parseInt(players[i - 1].bid)) {
         rank++
       }
@@ -61,9 +62,6 @@ const getScoringValues = (players, activePlayer, rankCount) => {
   }
   return players
 }
-
-// rankRepeat - 1 === players[i].rank - 1 ? rankRepeat : rankRepeat - 1
-// 2 - 1 === 2 ? 2 : 1
 /**
  * Returns the sum of the integers whose index is between i1 and i2.
  *
